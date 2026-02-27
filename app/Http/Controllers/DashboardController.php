@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\Contact;
 use App\Models\Country;
+use App\Models\GoogleCalendarToken;
 use App\Models\Language;
 use App\Models\Role;
 use App\Models\Status;
@@ -51,7 +52,8 @@ class DashboardController extends Controller {
                 'photo_path' => $user->photo_path ?? null,
                 'deleted_at' => $user->deleted_at,
             ],
-            'languages' => Language::get()
+            'languages' => Language::get(),
+            'google_calendar_connected' => GoogleCalendarToken::where('user_id', $user->id)->exists(),
         ]);
     }
 

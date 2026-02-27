@@ -13,6 +13,7 @@ use App\Models\Setting;
 use App\Models\Task;
 use App\Models\TaskLabel;
 use App\Models\TeamMember;
+use App\Services\GoogleCalendarService;
 use App\Models\Timer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -61,6 +62,17 @@ class TasksController extends Controller
             $task->{$itemKey} = $itemValue;
         }
         $task->save();
+
+        // Sync with Google Calendar if task is linked and due_date or title changed
+        if ($task->google_event_id && (isset($requestData['due_date']) || isset($requestData['title']))) {
+            try {
+                $taskOwner = $task->user ?? auth()->user();
+                app(GoogleCalendarService::class)->updateEvent($taskOwner, $task);
+            } catch (\Exception $e) {
+                \Log::warning('Google Calendar auto-update failed', ['task_id' => $task->id, 'error' => $e->getMessage()]);
+            }
+        }
+
         $task->load('list')->load('taskLabels.label')->load('project.background')->load('assignees')->load('timer');
         return response()->json($task);
     }
@@ -133,6 +145,17 @@ class TasksController extends Controller
             Comment::where('task_id', $task->id)->delete();
             Assignee::where('task_id', $task->id)->delete();
             TaskLabel::where('task_id', $task->id)->delete();
+
+            // Remove from Google Calendar if linked
+            if ($task->google_event_id) {
+                try {
+                    $taskOwner = $task->user ?? auth()->user();
+                    app(GoogleCalendarService::class)->deleteEvent($taskOwner, $task->google_event_id);
+                } catch (\Exception $e) {
+                    \Log::warning('Google Calendar auto-delete failed', ['task_id' => $task->id, 'error' => $e->getMessage()]);
+                }
+            }
+
             $result = $task->delete();
         }
         return response()->json($result);

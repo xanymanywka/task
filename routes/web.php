@@ -37,6 +37,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\WatcherController;
 use App\Http\Controllers\WorkSpacesController;
 use App\Http\Controllers\WorkspaceTypesController;
+use App\Http\Controllers\GoogleCalendarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -430,3 +431,19 @@ Route::post('/settings/license/deactivate', [LicenseController::class, 'deactiva
 Route::get('/license/activate', [LicenseController::class, 'showActivationForm'])->name('license.show');
 Route::post('/license/activate', [LicenseController::class, 'activate'])->name('license.activate');
 
+
+// Google Calendar Integration
+// Webhook must be outside auth middleware (Google doesn't send auth cookies)
+Route::post('/google/calendar/webhook', [GoogleCalendarController::class, 'webhook'])
+    ->name('google.calendar.webhook')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
+Route::middleware(['auth'])->prefix('google/calendar')->name('google.calendar.')->group(function () {
+    Route::get('/redirect', [GoogleCalendarController::class, 'redirect'])->name('redirect');
+    Route::get('/callback', [GoogleCalendarController::class, 'callback'])->name('callback');
+    Route::delete('/disconnect', [GoogleCalendarController::class, 'disconnect'])->name('disconnect');
+    Route::get('/status', [GoogleCalendarController::class, 'status'])->name('status');
+    Route::get('/events', [GoogleCalendarController::class, 'events'])->name('events');
+    Route::post('/tasks/{taskId}/sync', [GoogleCalendarController::class, 'syncTask'])->name('tasks.sync');
+    Route::delete('/tasks/{taskId}/sync', [GoogleCalendarController::class, 'unsyncTask'])->name('tasks.unsync');
+});
