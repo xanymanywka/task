@@ -447,3 +447,32 @@ Route::middleware(['auth'])->prefix('google/calendar')->name('google.calendar.')
     Route::post('/tasks/{taskId}/sync', [GoogleCalendarController::class, 'syncTask'])->name('tasks.sync');
     Route::delete('/tasks/{taskId}/sync', [GoogleCalendarController::class, 'unsyncTask'])->name('tasks.unsync');
 });
+
+// Appearance Settings
+use App\Http\Controllers\AppearanceController;
+
+Route::middleware(['auth'])->prefix('settings')->name('settings.')->group(function () {
+    Route::get('/appearance', [AppearanceController::class, 'index'])->name('appearance');
+    Route::post('/appearance', [AppearanceController::class, 'update'])->name('appearance.update');
+    Route::post('/appearance/reset', [AppearanceController::class, 'reset'])->name('appearance.reset');
+});
+
+// Slack Slash Commands
+use App\Http\Controllers\SlackCommandController;
+
+// This endpoint receives slash commands from Slack (no CSRF, Slack signs requests)
+Route::post('/slack/command', [SlackCommandController::class, 'command'])
+    ->name('slack.command')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
+// Internal Messenger
+use App\Http\Controllers\MessengerController;
+
+Route::middleware(['auth'])->prefix('messenger')->name('messenger.')->group(function () {
+    Route::get('/', [MessengerController::class, 'index'])->name('index');
+    Route::post('/direct', [MessengerController::class, 'startDirect'])->name('direct');
+    Route::post('/group', [MessengerController::class, 'createGroup'])->name('group');
+    Route::get('/conversations/{conversation}/messages', [MessengerController::class, 'messages'])->name('messages');
+    Route::post('/conversations/{conversation}/send', [MessengerController::class, 'send'])->name('send');
+    Route::get('/unread', [MessengerController::class, 'unreadCount'])->name('unread');
+});

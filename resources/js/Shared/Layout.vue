@@ -1,5 +1,5 @@
 <template>
-    <div class="layout-app" :class="[current_mode, $page.props.project?'project':'main', $page.component.replace('/', '_')]" :dir="dir" :style="[$page.props.project && $page.props.project.background?{backgroundColor: $page.props.project.background.bg, backgroundImage: 'url('+$page.props.project.background.image+')', backgroundSize: 'cover'}:{}]">
+    <div class="layout-app" :class="[current_mode, `font-${appearanceFont}`, `density-${appearanceDensity}`, $page.props.project?'project':'main', $page.component.replace('/', '_')]" :dir="dir" :style="[appearanceStyle, $page.props.project && $page.props.project.background?{backgroundColor: $page.props.project.background.bg, backgroundImage: 'url('+$page.props.project.background.image+')', backgroundSize: 'cover'}:{}]">
         <div id="dropdown" />
         <div class="md:flex md:flex-col">
             <div class="md:h-screen md:flex md:flex-col">
@@ -96,6 +96,16 @@
                                 <button v-if="!!this.activeTimerString" @click="stopTracker()">STOP</button>
                                 <Link :href="this.route('projects.view.board',{uid: this.counter.timer.task.project_id, task: this.counter.timer.task.slug || this.counter.timer.task.id})" aria-label="Task details"><icon class="" name="info" /></Link>
                             </div>
+                            <Link :href="route('messenger.index')" class="relative flex items-center p-1 text-white hover:text-indigo-200 transition-colors" :title="$t('Messages')">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                                <span v-if="messengerUnread > 0"
+                                      class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                                    {{ messengerUnread > 9 ? '9+' : messengerUnread }}
+                                </span>
+                            </Link>
                             <notification-bell class="flex items-center" />
                             <button class="theme-toggle" id="theme-toggle" title="Toggles light & dark" :aria-label="current_mode" aria-live="polite" @click="switchMode">
                                 <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
@@ -142,6 +152,7 @@
                                             </div>
                                         </div>
                                         <Link class="flex px-6 py-2 items-center hover:bg-indigo-500 hover:text-white hover:fill-white" :href="route('users.edit.profile')"><icon class="w-4 h-4 mr-2" name="user_edit" /> {{ $t('Edit Profile') }}</Link>
+                                        <Link class="flex px-6 py-2 items-center hover:bg-indigo-500 hover:text-white hover:fill-white" :href="route('settings.appearance')"><icon class="w-4 h-4 mr-2" name="settings" /> {{ $t('Appearance') }}</Link>
                                         <Link v-if="$page.props.auth.user.role.slug === 'admin'" class="flex px-6 py-2 items-center hover:bg-indigo-500 hover:text-white hover:fill-white" :href="route('global')"><icon class="w-4 h-4 mr-2" name="settings" /> {{ $t('Global Settings') }}</Link>
                                         <Link class="flex items-center px-6 py-2 hover:bg-indigo-500 hover:text-white hover:fill-white w-full" :href="route('logout')" method="delete" as="button"><icon class="w-4 h-4 mr-2" name="logout" />{{ $t('Logout') }}</Link>
                                     </div>
@@ -166,6 +177,57 @@
                 <create-workspace v-if="visible.create_workspace" @create-workspace="visible.create_workspace = false" />
             </div>
         </div>
+
+        <!-- Mobile Sidebar Drawer Overlay -->
+        <transition name="fade">
+            <div v-if="mobileSidebarOpen" class="fixed inset-0 bg-black/50 z-40 md:hidden" @click="mobileSidebarOpen = false"></div>
+        </transition>
+
+        <!-- Mobile Sidebar Drawer -->
+        <transition name="slide-left">
+            <div v-if="mobileSidebarOpen" class="fixed top-0 left-0 h-full w-72 bg-white dark:bg-gray-900 z-50 shadow-2xl md:hidden overflow-y-auto">
+                <div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700">
+                    <logo class="h-7" name="white" />
+                    <button @click="mobileSidebarOpen = false" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <icon class="w-5 h-5" name="dash" />
+                    </button>
+                </div>
+                <workspace-menu v-if="$page.props.project || $page.props.workspace" @enableSidebar="mobileSidebarOpen = false" />
+                <main-menu v-else-if="$page.props.auth.user.role.slug === 'admin'" />
+            </div>
+        </transition>
+
+        <!-- Mobile Bottom Navigation Bar -->
+        <nav class="fixed bottom-0 left-0 right-0 z-30 md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+            <div class="flex items-center justify-around h-16 px-2">
+                <Link :href="route('dashboard')" class="flex flex-col items-center gap-0.5 px-3 py-1" :class="$page.component === 'Dashboard' ? 'text-indigo-600' : 'text-gray-500 dark:text-gray-400'">
+                    <icon class="w-5 h-5" name="dashboard" />
+                    <span class="text-xs font-medium">$t('Dashboard')</span>
+                </Link>
+                <Link :href="route('messenger.index')" class="relative flex flex-col items-center gap-0.5 px-3 py-1" :class="$page.url.startsWith('/messenger') ? 'text-indigo-600' : 'text-gray-500 dark:text-gray-400'">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    <span v-if="messengerUnread > 0" class="absolute top-0 right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                        {{ messengerUnread > 9 ? '9+' : messengerUnread }}
+                    </span>
+                    <span class="text-xs font-medium">{{ $t('Chat') }}</span>
+                </Link>
+                <Link :href="route('users.edit.profile')" class="flex flex-col items-center gap-0.5 px-3 py-1" :class="$page.url.includes('profile') ? 'text-indigo-600' : 'text-gray-500 dark:text-gray-400'">
+                    <img v-if="$page.props.auth.user.photo" :src="$page.props.auth.user.photo" class="w-5 h-5 rounded-full object-cover" />
+                    <icon v-else class="w-5 h-5" name="user" />
+                    <span class="text-xs font-medium">{{ $t('Account') }}</span>
+                </Link>
+                <button @click="mobileSidebarOpen = true" class="flex flex-col items-center gap-0.5 px-3 py-1 text-gray-500 dark:text-gray-400">
+                    <icon class="w-5 h-5" name="menu" />
+                    <span class="text-xs font-medium">{{ $t('Menu') }}</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile content bottom padding for nav bar -->
+        <div class="md:hidden h-16 pointer-events-none"></div>
     </div>
 </template>
 
@@ -227,10 +289,42 @@ export default {
             counter: { seconds: 0, timer: this.auth?.timer || 0, duration: 0 },
             locale: this.$page.props.auth.user.locale,
             dir: ['sa','he','ur'].includes(this.$page.props.auth.user.locale)?'rtl':'ltr',
+            mobileSidebarOpen: false,
+            messengerUnread: 0,
+            messengerPollInterval: null,
         }
     },
     computed: {
-
+        appearanceStyle() {
+            const a = this.$page.props.appearance || {}
+            const fontMap = {
+                'inter': "'Inter', sans-serif",
+                'roboto': "'Roboto', sans-serif",
+                'poppins': "'Poppins', sans-serif",
+                'nunito': "'Nunito', sans-serif",
+                'lato': "'Lato', sans-serif",
+                'open-sans': "'Open Sans', sans-serif",
+                'raleway': "'Raleway', sans-serif",
+                'system': "system-ui, -apple-system, sans-serif",
+            }
+            return {
+                '--app-primary': a.primary_color || '#6366f1',
+                '--app-bg': this.current_mode === 'dark' ? '#262932' : (a.background_color || '#f8fafc'),
+                '--app-sidebar': a.sidebar_color || '#1e293b',
+                '--app-text': this.current_mode === 'dark' ? 'rgba(255,255,255,0.7)' : (a.text_color || '#0f172a'),
+                '--app-radius': (a.border_radius || '8') + 'px',
+                '--app-font-size': (a.font_size || '14') + 'px',
+                '--app-font-family': fontMap[a.font_family] || fontMap['inter'],
+                'font-family': fontMap[a.font_family] || fontMap['inter'],
+                'font-size': (a.font_size || '14') + 'px',
+            }
+        },
+        appearanceFont() {
+            return this.$page.props.appearance?.font_family || 'inter'
+        },
+        appearanceDensity() {
+            return this.$page.props.appearance?.layout_density || 'comfortable'
+        },
     },
     // $page.props.counter
     watch: {
@@ -327,6 +421,17 @@ export default {
             this.counter.duration = response.data;
             this.startTimer(this.counter.timer.started_at)
         },
+        async fetchMessengerUnread() {
+            try {
+                const resp = await fetch(this.route('messenger.unread'), {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                if (resp.ok) {
+                    const data = await resp.json()
+                    this.messengerUnread = data.total || 0
+                }
+            } catch {}
+        },
     },
     created() {
         this.moment = moment;
@@ -338,11 +443,15 @@ export default {
             this.getDuration(this.counter.timer.task_id)
         }
 
-
         if(getActiveLanguage() !== this.locale){
             loadLanguageAsync(this.locale)
         }
 
-    }
+        this.fetchMessengerUnread()
+        this.messengerPollInterval = setInterval(() => this.fetchMessengerUnread(), 30000)
+    },
+    beforeUnmount() {
+        if (this.messengerPollInterval) clearInterval(this.messengerPollInterval)
+    },
 }
 </script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\AppearanceController;
 use App\Models\Language;
 use App\Models\Project;
 use App\Models\Setting;
@@ -74,6 +75,15 @@ class HandleInertiaRequests extends Middleware
                 return cache()->rememberForever('global_settings', function () {
                     return Setting::whereIn('slug', ['app_name', 'default_language', 'allowed_file_types'])->pluck('value', 'slug');
                 });
+            },
+            'appearance' => function () use ($request) {
+                if (!$request->user()) {
+                    return AppearanceController::defaults();
+                }
+                return array_merge(
+                    AppearanceController::defaults(),
+                    $request->user()->appearance ?? []
+                );
             },
         ]);
     }

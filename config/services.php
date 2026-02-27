@@ -41,4 +41,9 @@ return [
         'redirect'      => env('GOOGLE_REDIRECT_URI', '/google/calendar/callback'),
     ],
 
+    'slack' => [
+        'signing_secret' => env('SLACK_SIGNING_SECRET'),
+        'bot_token'      => env('SLACK_BOT_TOKEN'),
+    ],
+
 ];
