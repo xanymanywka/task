@@ -1,0 +1,400 @@
+{
+  "\u0000plugin-vue:export-helper": [
+    "/build/assets/_plugin-vue_export-helper-1tPrXgE0.js"
+  ],
+  "lang/bd.json": [],
+  "lang/cn.json": [],
+  "lang/de.json": [],
+  "lang/en.json": [],
+  "lang/es.json": [],
+  "lang/extracted.json": [],
+  "lang/it.json": [],
+  "lang/nl.json": [],
+  "lang/php_en.json": [],
+  "lang/pt.json": [],
+  "lang/ro.json": [],
+  "lang/sa.json": [],
+  "lang/se.json": [],
+  "lang/tr.json": [],
+  "lang/vi.json": [],
+  "node_modules/laravel-vite-plugin/inertia-helpers/index.js": [],
+  "resources/js/Components/WatchButton.vue": [
+    "/build/assets/TaskDetails-Brzqi4RZ.js",
+    "/build/assets/TaskDetails-Dre4NCNJ.css"
+  ],
+  "resources/js/Pages/Auth/ForgotPassword.vue": [
+    "/build/assets/ForgotPassword-Djt3kVck.js"
+  ],
+  "resources/js/Pages/Auth/ForgotPasswordInput.vue": [
+    "/build/assets/ForgotPasswordInput-Ctzj9z-P.js"
+  ],
+  "resources/js/Pages/Auth/Login-last-backup.vue": [
+    "/build/assets/Login-last-backup-YQUQKeHg.js",
+    "/build/assets/Login-last-backup-xgcAUiJG.css"
+  ],
+  "resources/js/Pages/Auth/Login-last-backup.vue?vue&type=style&index=0&scoped=84533cff&lang.css": [
+    "/build/assets/Login-last-backup-YQUQKeHg.js",
+    "/build/assets/Login-last-backup-xgcAUiJG.css"
+  ],
+  "resources/js/Pages/Auth/Login.vue": [
+    "/build/assets/Login-BT9mJTKj.js",
+    "/build/assets/Login-QQ6r9jtJ.css"
+  ],
+  "resources/js/Pages/Auth/Login.vue?vue&type=style&index=0&scoped=b5b2236f&lang.css": [
+    "/build/assets/Login-BT9mJTKj.js",
+    "/build/assets/Login-QQ6r9jtJ.css"
+  ],
+  "resources/js/Pages/Auth/Register.vue": [
+    "/build/assets/Register-BkaKBXSB.js"
+  ],
+  "resources/js/Pages/Dashboard/Index.vue": [
+    "/build/assets/Index-s26OK4an.js"
+  ],
+  "resources/js/Pages/EmailTemplates/Edit.vue": [
+    "/build/assets/Edit-W7LeM2YN.js"
+  ],
+  "resources/js/Pages/EmailTemplates/Index.vue": [
+    "/build/assets/Index-7g-dnOZQ.js"
+  ],
+  "resources/js/Pages/Error.vue": [
+    "/build/assets/Error-TMrBdlSY.js"
+  ],
+  "resources/js/Pages/Installer/Steps/Admin.vue": [
+    "/build/assets/Admin-DHhwY1zf.js"
+  ],
+  "resources/js/Pages/Installer/Steps/Complete.vue": [
+    "/build/assets/Complete-xOcC-bUe.js"
+  ],
+  "resources/js/Pages/Installer/Steps/Database.vue": [
+    "/build/assets/Database-DadVgG53.js"
+  ],
+  "resources/js/Pages/Installer/Steps/Environment.vue": [
+    "/build/assets/Environment-BEUPVY2z.js"
+  ],
+  "resources/js/Pages/Installer/Steps/License.vue": [
+    "/build/assets/License-Bawzyd4d.js"
+  ],
+  "resources/js/Pages/Installer/Steps/Progress.vue": [
+    "/build/assets/Progress-D4p3XS2W.js"
+  ],
+  "resources/js/Pages/Installer/Steps/Welcome.vue": [
+    "/build/assets/Welcome-BGMLeWHw.js"
+  ],
+  "resources/js/Pages/Labels/Create.vue": [
+    "/build/assets/Create-O4PDB5jL.js"
+  ],
+  "resources/js/Pages/Labels/Edit.vue": [
+    "/build/assets/Edit-CuwgTX0C.js"
+  ],
+  "resources/js/Pages/Labels/Index.vue": [
+    "/build/assets/Index-DuYo5H6G.js"
+  ],
+  "resources/js/Pages/Languages/Create.vue": [
+    "/build/assets/Create-DCEJNqdF.js"
+  ],
+  "resources/js/Pages/Languages/Edit.vue": [
+    "/build/assets/Edit-DIRpm5qz.js"
+  ],
+  "resources/js/Pages/Languages/Index.vue": [
+    "/build/assets/Index-C4coRNLH.js"
+  ],
+  "resources/js/Pages/License/Activate.vue": [
+    "/build/assets/Activate-OCZfXM7N.js"
+  ],
+  "resources/js/Pages/License/Settings.vue": [
+    "/build/assets/Settings-D5c7RZ6c.js"
+  ],
+  "resources/js/Pages/Notifications/Index.vue": [
+    "/build/assets/Index-bLxDYnhJ.js"
+  ],
+  "resources/js/Pages/Projects/Calendar.vue": [
+    "/build/assets/Calendar-C0JycOTC.js",
+    "/build/assets/Calendar-9HabIsEq.css"
+  ],
+  "resources/js/Pages/Projects/Calendar.vue?vue&type=style&index=0&scoped=4fb452e3&lang.css": [
+    "/build/assets/Calendar-C0JycOTC.js",
+    "/build/assets/Calendar-9HabIsEq.css"
+  ],
+  "resources/js/Pages/Projects/Calendar_Clean.vue": [
+    "/build/assets/Calendar_Clean-B61gv3NW.js",
+    "/build/assets/Calendar_Clean-DKEPaGDL.css"
+  ],
+  "resources/js/Pages/Projects/Calendar_Clean.vue?vue&type=style&index=0&scoped=7101c612&lang.css": [
+    "/build/assets/Calendar_Clean-B61gv3NW.js",
+    "/build/assets/Calendar_Clean-DKEPaGDL.css"
+  ],
+  "resources/js/Pages/Projects/Dashboard.vue": [
+    "/build/assets/Dashboard-B73fVo7A.js"
+  ],
+  "resources/js/Pages/Projects/GanttChart.vue": [
+    "/build/assets/GanttChart-BE8UZRuA.js",
+    "/build/assets/GanttChart-CcYK6CK_.css"
+  ],
+  "resources/js/Pages/Projects/GanttChart.vue?vue&type=style&index=0&scoped=bf482995&lang.css": [
+    "/build/assets/GanttChart-BE8UZRuA.js",
+    "/build/assets/GanttChart-CcYK6CK_.css"
+  ],
+  "resources/js/Pages/Projects/Index.vue": [
+    "/build/assets/Index-D4qrGkDY.js"
+  ],
+  "resources/js/Pages/Projects/Na.vue": [
+    "/build/assets/Na-SiRghESm.js"
+  ],
+  "resources/js/Pages/Projects/Table.vue": [
+    "/build/assets/Table--FsrJBZQ.js"
+  ],
+  "resources/js/Pages/Projects/Timeline.vue": [
+    "/build/assets/Timeline-CkcoD5OJ.js",
+    "/build/assets/Timeline-C2vddLxa.css"
+  ],
+  "resources/js/Pages/Projects/Timeline.vue?vue&type=style&index=0&scoped=fb4fd2f3&lang.css": [
+    "/build/assets/Timeline-CkcoD5OJ.js",
+    "/build/assets/Timeline-C2vddLxa.css"
+  ],
+  "resources/js/Pages/Projects/Timer.vue": [
+    "/build/assets/Timer-BNWc3adi.js",
+    "/build/assets/Timer-CLau5WjE.css"
+  ],
+  "resources/js/Pages/Projects/Timer.vue?vue&type=style&index=0&scoped=2713c382&lang.css": [
+    "/build/assets/Timer-BNWc3adi.js",
+    "/build/assets/Timer-CLau5WjE.css"
+  ],
+  "resources/js/Pages/Projects/View.vue": [
+    "/build/assets/View-C_34LC2b.js"
+  ],
+  "resources/js/Pages/Roles/Create.vue": [
+    "/build/assets/Create-DLAVYx_k.js"
+  ],
+  "resources/js/Pages/Roles/Edit.vue": [
+    "/build/assets/Edit-DTcAT11C.js"
+  ],
+  "resources/js/Pages/Roles/Index.vue": [
+    "/build/assets/Index-DySLxMTW.js"
+  ],
+  "resources/js/Pages/Settings/Index.vue": [
+    "/build/assets/Index-W9Pu5n_c.js",
+    "/build/assets/Index-CIali1Vy.css"
+  ],
+  "resources/js/Pages/Settings/Index.vue?vue&type=style&index=0&scoped=c463310b&lang.css": [
+    "/build/assets/Index-W9Pu5n_c.js",
+    "/build/assets/Index-CIali1Vy.css"
+  ],
+  "resources/js/Pages/Settings/Notification.vue": [
+    "/build/assets/Notification-DqmA6pqG.js"
+  ],
+  "resources/js/Pages/Settings/NotificationSettings.vue": [
+    "/build/assets/NotificationSettings-fX91GQZb.js",
+    "/build/assets/NotificationSettings-BQicjJZI.css"
+  ],
+  "resources/js/Pages/Settings/NotificationSettings.vue?vue&type=style&index=0&scoped=0f8c574e&lang.css": [
+    "/build/assets/NotificationSettings-fX91GQZb.js",
+    "/build/assets/NotificationSettings-BQicjJZI.css"
+  ],
+  "resources/js/Pages/Settings/PreMadeList.vue": [
+    "/build/assets/PreMadeList-vHP-bQn9.js"
+  ],
+  "resources/js/Pages/Settings/Smtp.vue": [
+    "/build/assets/Smtp-pMc0zD4E.js"
+  ],
+  "resources/js/Pages/Settings/Update.vue": [
+    "/build/assets/Update-B86jf7hp.js"
+  ],
+  "resources/js/Pages/Users/Create.vue": [
+    "/build/assets/Create-C7kLfp5v.js"
+  ],
+  "resources/js/Pages/Users/Edit.vue": [
+    "/build/assets/Edit-BKjO_Aif.js"
+  ],
+  "resources/js/Pages/Users/EditProfile.vue": [
+    "/build/assets/EditProfile-B9UBdQD2.js"
+  ],
+  "resources/js/Pages/Users/Index.vue": [
+    "/build/assets/Index-wd76J5tR.js"
+  ],
+  "resources/js/Pages/WorkspaceTypes/Create.vue": [
+    "/build/assets/Create-SOetQl7Q.js"
+  ],
+  "resources/js/Pages/WorkspaceTypes/Edit.vue": [
+    "/build/assets/Edit-CTPSahAW.js"
+  ],
+  "resources/js/Pages/WorkspaceTypes/Index.vue": [
+    "/build/assets/Index-CNaJVad6.js"
+  ],
+  "resources/js/Pages/Workspaces/Board.vue": [
+    "/build/assets/Board-CDq8hll-.js"
+  ],
+  "resources/js/Pages/Workspaces/Calendar.vue": [
+    "/build/assets/Calendar-DfjS0802.js",
+    "/build/assets/Calendar-CB01KyP9.css"
+  ],
+  "resources/js/Pages/Workspaces/Calendar.vue?vue&type=style&index=0&scoped=8a79b087&lang.css": [
+    "/build/assets/Calendar-DfjS0802.js",
+    "/build/assets/Calendar-CB01KyP9.css"
+  ],
+  "resources/js/Pages/Workspaces/Members.vue": [
+    "/build/assets/Members-BGNVNV6K.js"
+  ],
+  "resources/js/Pages/Workspaces/MyTasks.vue": [
+    "/build/assets/MyTasks-BEmWD_zj.js"
+  ],
+  "resources/js/Pages/Workspaces/MyTasksBoard.vue": [
+    "/build/assets/MyTasksBoard-BWi_4b_x.js"
+  ],
+  "resources/js/Pages/Workspaces/MyTasksCalendar.vue": [
+    "/build/assets/MyTasksCalendar-DU7mj_-h.js",
+    "/build/assets/MyTasksCalendar-DbyBIf4T.css"
+  ],
+  "resources/js/Pages/Workspaces/MyTasksCalendar.vue?vue&type=style&index=0&scoped=fbec6533&lang.css": [
+    "/build/assets/MyTasksCalendar-DU7mj_-h.js",
+    "/build/assets/MyTasksCalendar-DbyBIf4T.css"
+  ],
+  "resources/js/Pages/Workspaces/MyTasksTimeline.vue": [
+    "/build/assets/MyTasksTimeline-CdsCSCxi.js",
+    "/build/assets/MyTasksTimeline-rQEJG89S.css"
+  ],
+  "resources/js/Pages/Workspaces/MyTasksTimeline.vue?vue&type=style&index=0&scoped=cdc789c4&lang.css": [
+    "/build/assets/MyTasksTimeline-CdsCSCxi.js",
+    "/build/assets/MyTasksTimeline-rQEJG89S.css"
+  ],
+  "resources/js/Pages/Workspaces/Table.vue": [
+    "/build/assets/Table-DfO1ziZy.js"
+  ],
+  "resources/js/Pages/Workspaces/Timeline.vue": [
+    "/build/assets/Timeline-BdompwIL.js",
+    "/build/assets/Timeline-D7qDknsy.css"
+  ],
+  "resources/js/Pages/Workspaces/Timeline.vue?vue&type=style&index=0&scoped=c12ab8ff&lang.css": [
+    "/build/assets/Timeline-BdompwIL.js",
+    "/build/assets/Timeline-D7qDknsy.css"
+  ],
+  "resources/js/Pages/Workspaces/View.vue": [
+    "/build/assets/View-D62sh_7v.js"
+  ],
+  "resources/js/Shared/BoardFilter.vue": [
+    "/build/assets/BoardFilter-CiNC3Uok.js",
+    "/build/assets/BoardFilter-C631Q8iu.css"
+  ],
+  "resources/js/Shared/BoardFilter.vue?vue&type=style&index=0&scoped=4bbf96b0&lang.css": [
+    "/build/assets/BoardFilter-CiNC3Uok.js",
+    "/build/assets/BoardFilter-C631Q8iu.css"
+  ],
+  "resources/js/Shared/BoardViewMenu.vue": [
+    "/build/assets/BoardViewMenu-VLZvjjCz.js"
+  ],
+  "resources/js/Shared/Components/CustomEditor.vue": [
+    "/build/assets/TaskDetails-Brzqi4RZ.js",
+    "/build/assets/TaskDetails-Dre4NCNJ.css"
+  ],
+  "resources/js/Shared/Components/CustomEditor.vue?vue&type=style&index=0&scoped=883fd9f7&lang.css": [
+    "/build/assets/TaskDetails-Brzqi4RZ.js",
+    "/build/assets/TaskDetails-Dre4NCNJ.css"
+  ],
+  "resources/js/Shared/Components/DatePicker.vue": [
+    "/build/assets/DatePicker-Dszogp-H.js",
+    "/build/assets/DatePicker-CHuUuncT.css"
+  ],
+  "resources/js/Shared/Components/DatePicker.vue?vue&type=style&index=0&scoped=65cc1255&lang.css": [
+    "/build/assets/DatePicker-Dszogp-H.js",
+    "/build/assets/DatePicker-CHuUuncT.css"
+  ],
+  "resources/js/Shared/Components/DateTimePicker.vue": [
+    "/build/assets/TaskDetails-Brzqi4RZ.js",
+    "/build/assets/TaskDetails-Dre4NCNJ.css"
+  ],
+  "resources/js/Shared/Components/DateTimePicker.vue?vue&type=style&index=0&scoped=80392d7c&lang.css": [
+    "/build/assets/TaskDetails-Brzqi4RZ.js",
+    "/build/assets/TaskDetails-Dre4NCNJ.css"
+  ],
+  "resources/js/Shared/DeleteConfirmation.vue": [
+    "/build/assets/DeleteConfirmation-BPXvi2r7.js"
+  ],
+  "resources/js/Shared/Dropdown.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/FileInput.vue": [
+    "/build/assets/FileInput-PDHMJZ8j.js"
+  ],
+  "resources/js/Shared/FlashMessages.vue": [
+    "/build/assets/FlashMessages-DizfipYZ.js"
+  ],
+  "resources/js/Shared/Icon.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/Layout.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/Loader.vue": [
+    "/build/assets/TaskDetails-Brzqi4RZ.js",
+    "/build/assets/TaskDetails-Dre4NCNJ.css"
+  ],
+  "resources/js/Shared/LoadingButton.vue": [
+    "/build/assets/LoadingButton-CYW6UWDJ.js"
+  ],
+  "resources/js/Shared/Logo.vue": [
+    "/build/assets/FlashMessages-DizfipYZ.js"
+  ],
+  "resources/js/Shared/MainMenu.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/Modals/CreateProject.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/Modals/CreateWorkspace.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/Modals/InviteWorkspaceMember.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/Modals/TaskDetails.vue": [
+    "/build/assets/TaskDetails-Brzqi4RZ.js",
+    "/build/assets/TaskDetails-Dre4NCNJ.css"
+  ],
+  "resources/js/Shared/Modals/TaskDetails.vue?vue&type=style&index=0&scoped=f11a50f2&lang.css": [
+    "/build/assets/TaskDetails-Brzqi4RZ.js",
+    "/build/assets/TaskDetails-Dre4NCNJ.css"
+  ],
+  "resources/js/Shared/NotificationBell.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/Pagination.vue": [
+    "/build/assets/Pagination-DBkwUgAS.js"
+  ],
+  "resources/js/Shared/RightMenu.vue": [
+    "/build/assets/RightMenu-pQERURyc.js",
+    "/build/assets/RightMenu-Bz7UmkGT.css"
+  ],
+  "resources/js/Shared/RightMenu.vue?vue&type=style&index=0&scoped=6a138818&lang.css": [
+    "/build/assets/RightMenu-pQERURyc.js",
+    "/build/assets/RightMenu-Bz7UmkGT.css"
+  ],
+  "resources/js/Shared/SearchInput.vue": [
+    "/build/assets/SearchInput-CfYZ2JsH.js"
+  ],
+  "resources/js/Shared/SelectInput.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/TextInput.vue": [
+    "/build/assets/LoadingButton-CYW6UWDJ.js"
+  ],
+  "resources/js/Shared/TextareaInput.vue": [
+    "/build/assets/Index-W9Pu5n_c.js",
+    "/build/assets/Index-CIali1Vy.css"
+  ],
+  "resources/js/Shared/TopProjectMenu.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/TopWorkspaceMenu.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/WorkspaceMenu.vue": [
+    "/build/assets/Layout-NXEuzIE5.js"
+  ],
+  "resources/js/Shared/WorkspaceViewMenu.vue": [
+    "/build/assets/WorkspaceViewMenu-DXpMDYSk.js"
+  ],
+  "resources/js/Utils/InstallerApi.js": [
+    "/build/assets/InstallerApi-r_71Fyhu.js"
+  ],
+  "resources/js/ssr.js": [],
+  "vendor/tightenco/ziggy/dist/index.js": []
+}
