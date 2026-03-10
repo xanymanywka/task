@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('channel_resource_id')->nullable();
             $table->timestamp('channel_expiration')->nullable();
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

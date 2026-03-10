@@ -12,30 +12,27 @@ return new class extends Migration
             $table->id();
             $table->enum('type', ['direct', 'group'])->default('direct');
             $table->string('name')->nullable();
-            $table->unsignedInteger('created_by');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedInteger('created_by')->index();
             $table->timestamps();
         });
 
         Schema::create('conversation_participants', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('conversation_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedBigInteger('conversation_id')->index();
+            $table->unsignedInteger('user_id')->index();
             $table->timestamp('last_read_at')->nullable();
             $table->timestamps();
             $table->foreign('conversation_id')->references('id')->on('conversations')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unique(['conversation_id', 'user_id']);
         });
 
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('conversation_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedBigInteger('conversation_id')->index();
+            $table->unsignedInteger('user_id')->index();
             $table->text('body');
             $table->timestamps();
             $table->foreign('conversation_id')->references('id')->on('conversations')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
