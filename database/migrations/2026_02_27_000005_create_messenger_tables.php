@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->enum('type', ['direct', 'group'])->default('direct');
             $table->string('name')->nullable();
-            $table->unsignedBigInteger('created_by');
+            $table->unsignedInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
@@ -20,7 +20,7 @@ return new class extends Migration
         Schema::create('conversation_participants', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('conversation_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedInteger('user_id');
             $table->timestamp('last_read_at')->nullable();
             $table->timestamps();
             $table->foreign('conversation_id')->references('id')->on('conversations')->onDelete('cascade');
@@ -31,7 +31,7 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('conversation_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedInteger('user_id');
             $table->text('body');
             $table->timestamps();
             $table->foreign('conversation_id')->references('id')->on('conversations')->onDelete('cascade');

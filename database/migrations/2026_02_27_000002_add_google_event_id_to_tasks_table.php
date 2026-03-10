@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->string('google_event_id')->nullable()->after('timeline_group_id');
+            $table->string('google_event_id')->nullable();
         });
     }
 

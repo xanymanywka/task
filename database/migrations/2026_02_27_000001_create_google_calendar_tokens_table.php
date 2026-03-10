@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('google_calendar_tokens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unique();
+            $table->unsignedInteger('user_id')->unique();
             $table->text('access_token');
             $table->text('refresh_token')->nullable();
             $table->timestamp('expires_at')->nullable();
