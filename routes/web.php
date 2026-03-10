@@ -136,6 +136,7 @@ Route::get('p/na', [ProjectsController::class, 'noProject'])->name('projects.vie
 Route::get('p/table/{uid}', [ProjectsController::class, 'viewTable'])->name('projects.view.table')->middleware('auth');
 Route::get('p/calendar/{uid}', [ProjectsController::class, 'viewCalendar'])->name('projects.view.calendar')->middleware('auth');
 Route::get('p/timeline/{uid}', [ProjectsController::class, 'viewTimeline'])->name('projects.view.timeline')->middleware('auth');
+Route::get('p/gantt/{uid}', [ProjectsController::class, 'viewGanttChart'])->name('projects.view.gantt')->middleware('auth');
 Route::get('p/dashboard/{uid}', [ProjectsController::class, 'viewDashboard'])->name('projects.view.dashboard')->middleware('auth');
 Route::get('p/time-logs/{uid}', [ProjectsController::class, 'viewTimeLogs'])->name('projects.view.time_logs')->middleware('auth');
 Route::get('p/board/{projectUid}/task/{taskUid}', [ProjectsController::class, 'viewWithTask'])->name('projects.board.with.task')->middleware('auth');

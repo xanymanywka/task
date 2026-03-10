@@ -2,7 +2,7 @@
     <div class="h-full">
         <Head :title="$t(title)" />
         <div class="flex flex-col flex-grow-1 flex-shrink-1 h-full">
-            <board-view-menu :project="project" @filter-toggle="open_filter = !open_filter" :filters="filters" view="timeline" />
+            <board-view-menu :project="project" @filter-toggle="open_filter = !open_filter" :filters="filters" view="gantt" />
 
             <!-- Enhanced Gantt Chart Container -->
             <div class="flex-1 flex flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
@@ -90,6 +90,97 @@
                         </div>
                     </div>
 
+                    <!-- Filter Panel -->
+                    <transition name="slide-down">
+                    <div v-if="open_filter" class="gantt-filter-panel border-b border-gray-200/40 bg-gradient-to-r from-indigo-50/60 via-white to-purple-50/40 px-8 py-4">
+                        <div class="flex flex-wrap items-end gap-4">
+                            <!-- Assignee filter -->
+                            <div class="flex flex-col gap-1 min-w-[180px]">
+                                <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Assignee</label>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <button
+                                        v-for="a in assignees" :key="a.id"
+                                        @click="toggleFilter('filterAssignees', a.id)"
+                                        :class="[
+                                            'px-3 py-1.5 text-xs rounded-full font-medium border transition-all',
+                                            filterAssignees.includes(a.id)
+                                                ? 'bg-indigo-600 text-white border-indigo-600 shadow-md'
+                                                : 'bg-white text-gray-600 border-gray-200 hover:border-indigo-400 hover:text-indigo-600'
+                                        ]"
+                                    >{{ a.name }}</button>
+                                    <button v-if="!assignees.length" class="text-xs text-gray-400 italic">No assignees</button>
+                                </div>
+                            </div>
+
+                            <!-- Priority filter -->
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Priority</label>
+                                <div class="flex gap-1.5">
+                                    <button v-for="p in priorityOptions" :key="p.value"
+                                        @click="toggleFilter('filterPriorities', p.value)"
+                                        :class="[
+                                            'px-3 py-1.5 text-xs rounded-full font-medium border transition-all',
+                                            filterPriorities.includes(p.value)
+                                                ? p.activeClass
+                                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                        ]"
+                                    >{{ p.label }}</button>
+                                </div>
+                            </div>
+
+                            <!-- Status filter -->
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Status</label>
+                                <div class="flex gap-1.5">
+                                    <button v-for="s in statusOptions" :key="s.value"
+                                        @click="filterStatus = filterStatus === s.value ? null : s.value"
+                                        :class="[
+                                            'px-3 py-1.5 text-xs rounded-full font-medium border transition-all',
+                                            filterStatus === s.value
+                                                ? s.activeClass
+                                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                        ]"
+                                    >{{ s.label }}</button>
+                                </div>
+                            </div>
+
+                            <!-- Date range filter -->
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Date Range</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="date" v-model="filterDateFrom"
+                                           class="text-xs border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+                                    <span class="text-gray-400 text-xs">→</span>
+                                    <input type="date" v-model="filterDateTo"
+                                           class="text-xs border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+                                </div>
+                            </div>
+
+                            <!-- Group By -->
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Group By</label>
+                                <div class="flex gap-1.5">
+                                    <button v-for="g in groupByOptions" :key="g.value"
+                                        @click="groupBy = groupBy === g.value ? null : g.value"
+                                        :class="[
+                                            'px-3 py-1.5 text-xs rounded-full font-medium border transition-all',
+                                            groupBy === g.value
+                                                ? 'bg-purple-600 text-white border-purple-600 shadow-md'
+                                                : 'bg-white text-gray-600 border-gray-200 hover:border-purple-400 hover:text-purple-600'
+                                        ]"
+                                    >{{ g.label }}</button>
+                                </div>
+                            </div>
+
+                            <!-- Clear Filters -->
+                            <button @click="clearAllFilters"
+                                    class="ml-auto px-4 py-2 text-xs font-medium text-red-600 border border-red-200 bg-white rounded-xl hover:bg-red-50 transition-all">
+                                Clear Filters
+                            </button>
+                        </div>
+                    </div>
+                    </transition>
+
                     <!-- Gantt Chart Content -->
                     <div class="gantt-content flex-1 overflow-hidden">
                         <div class="gantt-container h-full flex">
@@ -109,7 +200,46 @@
                                     </div>
                                 </div>
                                 <div class="task-list-content flex-1 overflow-y-auto">
+                                    <!-- Group separator -->
+                                    <template v-if="groupBy">
+                                        <template v-for="(group, gKey) in groupedTasks" :key="gKey">
+                                            <div class="px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-indigo-100 sticky top-0 z-10">
+                                                <span class="text-xs font-bold text-indigo-700 uppercase tracking-wide">{{ gKey || 'Unassigned' }}</span>
+                                                <span class="ml-2 text-xs text-indigo-400">({{ group.length }})</span>
+                                            </div>
+                                            <div
+                                                v-for="(task, index) in group"
+                                                :key="task.id"
+                                                class="task-row group p-4 border-b border-gray-200/30 hover:bg-gradient-to-r hover:from-indigo-50/50 hover:to-blue-50/30 transition-all duration-300 cursor-pointer relative"
+                                                @click="selectTask(task)"
+                                                :class="{
+                                                    'bg-gradient-to-r from-indigo-100/80 to-blue-100/60 border-indigo-200/50 shadow-sm': selectedTask?.id === task.id,
+                                                    'hover:shadow-md': selectedTask?.id !== task.id
+                                                }"
+                                            >
+                                                <div class="absolute left-0 top-0 bottom-0 w-1 rounded-r-full" :class="getTaskStatusColor(task)"></div>
+                                                <div class="flex items-start justify-between">
+                                                    <div class="flex-1 min-w-0 pl-2">
+                                                        <div class="flex items-center space-x-2 mb-1">
+                                                            <h4 class="font-semibold text-gray-900 truncate group-hover:text-indigo-700 transition-colors text-sm">{{ task.title }}</h4>
+                                                            <div v-if="task.is_done" class="text-emerald-500"><icon name="check-circle" class="w-4 h-4" /></div>
+                                                        </div>
+                                                        <div class="flex items-center gap-1 flex-wrap">
+                                                            <span v-if="task.priority" class="text-xs px-1.5 py-0.5 rounded-full font-medium" :class="getPriorityClass(task.priority)">{{ task.priority }}</span>
+                                                            <span v-if="task.list" class="text-xs text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded-full">{{ task.list.title }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-col items-end space-y-1 ml-2">
+                                                        <div v-if="isHighPriority(task)" class="text-orange-500"><icon name="exclamation-triangle" class="w-3.5 h-3.5" /></div>
+                                                        <div v-if="isOverdue(task)" class="text-red-500"><icon name="clock" class="w-3.5 h-3.5" /></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+
                                     <div
+                                        v-else
                                         v-for="(task, index) in sortedTasks"
                                         :key="task.id"
                                         class="task-row group p-4 border-b border-gray-200/30 hover:bg-gradient-to-r hover:from-indigo-50/50 hover:to-blue-50/30 transition-all duration-300 cursor-pointer relative"
@@ -385,10 +515,12 @@ export default {
         TaskDetails,
     },
     props: {
-        title: String,
-        project: Object,
-        tasks: Array,
-        filters: Object,
+        title:     String,
+        project:   Object,
+        tasks:     Array,
+        filters:   Object,
+        assignees: { type: Array, default: () => [] },
+        labels:    { type: Array, default: () => [] },
     },
     data() {
         return {
@@ -417,7 +549,31 @@ export default {
             // Task details popup properties
             taskDetailsOpen: false,
             taskDetailsId: null,
-            td_pop: true
+            td_pop: true,
+            // Filters
+            filterAssignees:   [],
+            filterPriorities:  [],
+            filterStatus:      null,   // null | 'done' | 'open' | 'overdue'
+            filterDateFrom:    '',
+            filterDateTo:      '',
+            groupBy:           null,   // null | 'assignee' | 'priority' | 'list' | 'status'
+            priorityOptions: [
+                { value: 'low',      label: 'Low',      activeClass: 'bg-blue-500 text-white border-blue-500 shadow-md' },
+                { value: 'medium',   label: 'Medium',   activeClass: 'bg-yellow-500 text-white border-yellow-500 shadow-md' },
+                { value: 'high',     label: 'High',     activeClass: 'bg-orange-500 text-white border-orange-500 shadow-md' },
+                { value: 'critical', label: 'Critical', activeClass: 'bg-red-600 text-white border-red-600 shadow-md' },
+            ],
+            statusOptions: [
+                { value: 'open',    label: 'Open',    activeClass: 'bg-indigo-600 text-white border-indigo-600 shadow-md' },
+                { value: 'done',    label: 'Done',    activeClass: 'bg-emerald-600 text-white border-emerald-600 shadow-md' },
+                { value: 'overdue', label: 'Overdue', activeClass: 'bg-red-600 text-white border-red-600 shadow-md' },
+            ],
+            groupByOptions: [
+                { value: 'assignee', label: 'Assignee' },
+                { value: 'priority', label: 'Priority' },
+                { value: 'list',     label: 'List' },
+                { value: 'status',   label: 'Status' },
+            ],
         }
     },
     computed: {
@@ -435,12 +591,59 @@ export default {
                     return this.moment(this.currentDate).format('MMMM YYYY')
             }
         },
+        filteredTasks() {
+            return this.tasks.filter(task => {
+                // Assignee filter
+                if (this.filterAssignees.length) {
+                    const taskAssigneeIds = (task.assignees || []).map(a => a.user_id)
+                    if (!this.filterAssignees.some(id => taskAssigneeIds.includes(id))) return false
+                }
+                // Priority filter
+                if (this.filterPriorities.length) {
+                    if (!this.filterPriorities.includes(task.priority)) return false
+                }
+                // Status filter
+                if (this.filterStatus === 'done' && !task.is_done) return false
+                if (this.filterStatus === 'open' && task.is_done) return false
+                if (this.filterStatus === 'overdue' && !this.isOverdue(task)) return false
+                // Date range filter (start_date falls within range)
+                if (this.filterDateFrom) {
+                    const start = this.moment(task.start_date || task.created_at)
+                    if (start.isBefore(this.filterDateFrom, 'day')) return false
+                }
+                if (this.filterDateTo) {
+                    const end = this.moment(task.end_date || task.due_date || task.created_at)
+                    if (end.isAfter(this.filterDateTo, 'day')) return false
+                }
+                return true
+            })
+        },
         sortedTasks() {
-            return [...this.tasks].sort((a, b) => {
+            return [...this.filteredTasks].sort((a, b) => {
                 const aStart = this.moment(a.start_date || a.created_at)
                 const bStart = this.moment(b.start_date || b.created_at)
                 return aStart.diff(bStart)
             })
+        },
+        groupedTasks() {
+            if (!this.groupBy) return {}
+            const groups = {}
+            for (const task of this.sortedTasks) {
+                let key = ''
+                if (this.groupBy === 'assignee') {
+                    const names = (task.assignees || []).map(a => a.user?.name || a.user?.first_name || 'Unassigned')
+                    key = names.length ? names.join(', ') : 'Unassigned'
+                } else if (this.groupBy === 'priority') {
+                    key = task.priority ? task.priority.charAt(0).toUpperCase() + task.priority.slice(1) : 'No Priority'
+                } else if (this.groupBy === 'list') {
+                    key = task.list?.title ?? 'No List'
+                } else if (this.groupBy === 'status') {
+                    key = task.is_done ? 'Done' : (this.isOverdue(task) ? 'Overdue' : 'In Progress')
+                }
+                if (!groups[key]) groups[key] = []
+                groups[key].push(task)
+            }
+            return groups
         },
         timelineDates() {
             const dates = []
@@ -705,7 +908,31 @@ export default {
             this.updateFormRange()
             this.adjustDayWidth()
             this.ganttReady = true
-        }
+        },
+        toggleFilter(key, value) {
+            const idx = this[key].indexOf(value)
+            if (idx > -1) {
+                this[key].splice(idx, 1)
+            } else {
+                this[key].push(value)
+            }
+        },
+        clearAllFilters() {
+            this.filterAssignees  = []
+            this.filterPriorities = []
+            this.filterStatus     = null
+            this.filterDateFrom   = ''
+            this.filterDateTo     = ''
+        },
+        getPriorityClass(priority) {
+            const map = {
+                'low':      'bg-blue-100 text-blue-700',
+                'medium':   'bg-yellow-100 text-yellow-700',
+                'high':     'bg-orange-100 text-orange-700',
+                'critical': 'bg-red-100 text-red-700',
+            }
+            return map[priority] || 'bg-gray-100 text-gray-600'
+        },
     },
     mounted() {
         this.initializeGantt()
@@ -942,10 +1169,27 @@ button:hover::before {
     .task-list-header {
         background: white !important;
     }
-    
+
     .task-bar {
         box-shadow: none !important;
         border: 1px solid #000 !important;
     }
+}
+
+/* Filter panel slide transition */
+.slide-down-enter-active,
+.slide-down-leave-active {
+    transition: all 0.25s ease;
+    overflow: hidden;
+}
+.slide-down-enter-from,
+.slide-down-leave-to {
+    max-height: 0;
+    opacity: 0;
+}
+.slide-down-enter-to,
+.slide-down-leave-from {
+    max-height: 300px;
+    opacity: 1;
 }
 </style>
