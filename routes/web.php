@@ -37,6 +37,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\WatcherController;
 use App\Http\Controllers\WorkSpacesController;
 use App\Http\Controllers\WorkspaceTypesController;
+use App\Http\Controllers\GoogleCalendarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -135,6 +136,7 @@ Route::get('p/na', [ProjectsController::class, 'noProject'])->name('projects.vie
 Route::get('p/table/{uid}', [ProjectsController::class, 'viewTable'])->name('projects.view.table')->middleware('auth');
 Route::get('p/calendar/{uid}', [ProjectsController::class, 'viewCalendar'])->name('projects.view.calendar')->middleware('auth');
 Route::get('p/timeline/{uid}', [ProjectsController::class, 'viewTimeline'])->name('projects.view.timeline')->middleware('auth');
+Route::get('p/gantt/{uid}', [ProjectsController::class, 'viewGanttChart'])->name('projects.view.gantt')->middleware('auth');
 Route::get('p/dashboard/{uid}', [ProjectsController::class, 'viewDashboard'])->name('projects.view.dashboard')->middleware('auth');
 Route::get('p/time-logs/{uid}', [ProjectsController::class, 'viewTimeLogs'])->name('projects.view.time_logs')->middleware('auth');
 Route::get('p/board/{projectUid}/task/{taskUid}', [ProjectsController::class, 'viewWithTask'])->name('projects.board.with.task')->middleware('auth');
@@ -430,3 +432,48 @@ Route::post('/settings/license/deactivate', [LicenseController::class, 'deactiva
 Route::get('/license/activate', [LicenseController::class, 'showActivationForm'])->name('license.show');
 Route::post('/license/activate', [LicenseController::class, 'activate'])->name('license.activate');
 
+
+// Google Calendar Integration
+// Webhook must be outside auth middleware (Google doesn't send auth cookies)
+Route::post('/google/calendar/webhook', [GoogleCalendarController::class, 'webhook'])
+    ->name('google.calendar.webhook')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
+Route::middleware(['auth'])->prefix('google/calendar')->name('google.calendar.')->group(function () {
+    Route::get('/redirect', [GoogleCalendarController::class, 'redirect'])->name('redirect');
+    Route::get('/callback', [GoogleCalendarController::class, 'callback'])->name('callback');
+    Route::delete('/disconnect', [GoogleCalendarController::class, 'disconnect'])->name('disconnect');
+    Route::get('/status', [GoogleCalendarController::class, 'status'])->name('status');
+    Route::get('/events', [GoogleCalendarController::class, 'events'])->name('events');
+    Route::post('/tasks/{taskId}/sync', [GoogleCalendarController::class, 'syncTask'])->name('tasks.sync');
+    Route::delete('/tasks/{taskId}/sync', [GoogleCalendarController::class, 'unsyncTask'])->name('tasks.unsync');
+});
+
+// Appearance Settings
+use App\Http\Controllers\AppearanceController;
+
+Route::middleware(['auth'])->prefix('settings')->name('settings.')->group(function () {
+    Route::get('/appearance', [AppearanceController::class, 'index'])->name('appearance');
+    Route::post('/appearance', [AppearanceController::class, 'update'])->name('appearance.update');
+    Route::post('/appearance/reset', [AppearanceController::class, 'reset'])->name('appearance.reset');
+});
+
+// Slack Slash Commands
+use App\Http\Controllers\SlackCommandController;
+
+// This endpoint receives slash commands from Slack (no CSRF, Slack signs requests)
+Route::post('/slack/command', [SlackCommandController::class, 'command'])
+    ->name('slack.command')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
+// Internal Messenger
+use App\Http\Controllers\MessengerController;
+
+Route::middleware(['auth'])->prefix('messenger')->name('messenger.')->group(function () {
+    Route::get('/', [MessengerController::class, 'index'])->name('index');
+    Route::post('/direct', [MessengerController::class, 'startDirect'])->name('direct');
+    Route::post('/group', [MessengerController::class, 'createGroup'])->name('group');
+    Route::get('/conversations/{conversation}/messages', [MessengerController::class, 'messages'])->name('messages');
+    Route::post('/conversations/{conversation}/send', [MessengerController::class, 'send'])->name('send');
+    Route::get('/unread', [MessengerController::class, 'unreadCount'])->name('unread');
+});

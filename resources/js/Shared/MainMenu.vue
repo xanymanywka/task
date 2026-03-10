@@ -108,6 +108,13 @@ export default {
           'category': 'system'
         },
         {
+          'name': 'Appearance',
+          'route': 'settings.appearance',
+          'url': 'settings/appearance',
+          'icon': 'palette',
+          'category': 'system'
+        },
+        {
           'name': 'Manage Users',
           'route': 'users',
           'url': 'settings/users',

@@ -488,6 +488,70 @@ class ProjectsController extends Controller {
         ]);
     }
 
+    public function viewGanttChart($uid, Request $request)
+    {
+        $requests = $request->all();
+        $auth_id = auth()->id();
+        $workspaceIds = Workspace::where('user_id', $auth_id)->orWhereHas('member')->pluck('id');
+        $project = Project::bySlugOrId($uid)->whereIn('workspace_id', $workspaceIds)->with('workspace.member')->with('star')->with('background')->first();
+
+        $tasks = Task::filter($requests)
+            ->byProject($project->id)
+            ->whereHas('list')
+            ->with('taskLabels.label')
+            ->with('assignees.user')
+            ->with('list')
+            ->orderByRaw('COALESCE(start_date, created_at) ASC')
+            ->get()
+            ->map(function ($task) {
+                $start = $task->start_date ?? $task->created_at;
+                $end   = $task->end_date   ?? $task->due_date ?? $start;
+                $durationDays = (int) \Carbon\Carbon::parse($start)->diffInDays(\Carbon\Carbon::parse($end));
+
+                return [
+                    'id'                  => $task->id,
+                    'title'               => $task->title,
+                    'description'         => $task->description,
+                    'start_date'          => $start,
+                    'end_date'            => $end,
+                    'due_date'            => $task->due_date,
+                    'duration_days'       => max($durationDays, 1),
+                    'progress_percentage' => $task->progress_percentage ?? 0,
+                    'priority'            => $task->priority,
+                    'dependencies'        => $task->dependencies ?? [],
+                    'is_done'             => $task->is_done,
+                    'is_archive'          => $task->is_archive,
+                    'list'                => $task->list,
+                    'assignees'           => $task->assignees,
+                    'taskLabels'          => $task->taskLabels,
+                    'created_at'          => $task->created_at,
+                ];
+            })
+            ->toArray();
+
+        // Collect unique assignees and labels for filter dropdowns
+        $allAssignees = collect($tasks)
+            ->pluck('assignees')->flatten(1)
+            ->unique('user_id')
+            ->map(fn($a) => ['id' => $a['user_id'], 'name' => $a['user']['name'] ?? ''])
+            ->values();
+
+        $allLabels = collect($tasks)
+            ->pluck('taskLabels')->flatten(1)
+            ->unique(fn($tl) => $tl['label']['id'])
+            ->map(fn($tl) => $tl['label'])
+            ->values();
+
+        return Inertia::render('Projects/GanttChart', [
+            'title'       => 'Gantt | '.$project->title,
+            'project'     => $project,
+            'filters'     => $requests,
+            'tasks'       => $tasks,
+            'assignees'   => $allAssignees,
+            'labels'      => $allLabels,
+        ]);
+    }
+
     public function viewTimeLogs($projectUid, Request $request){
         $requests = $request->all();
         $auth_id = auth()->id();

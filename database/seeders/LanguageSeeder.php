@@ -28,5 +28,7 @@ class LanguageSeeder extends Seeder
         DB::table('languages')->insert(['name' => 'Portuguese', 'code' => 'pt']);
         DB::table('languages')->insert(['name' => 'Romanian', 'code' => 'ro']);
         DB::table('languages')->insert(['name' => 'Vietnamese', 'code' => 'vi']);
+        DB::table('languages')->insert(['name' => 'Russian', 'code' => 'ru']);
+        DB::table('languages')->insert(['name' => 'Ukrainian', 'code' => 'uk']);
     }
 }

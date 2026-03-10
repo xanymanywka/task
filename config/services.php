@@ -35,4 +35,15 @@ return [
         'item_id'    => '49556761',
     ],
 
+    'google' => [
+        'client_id'     => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect'      => env('GOOGLE_REDIRECT_URI', '/google/calendar/callback'),
+    ],
+
+    'slack' => [
+        'signing_secret' => env('SLACK_SIGNING_SECRET'),
+        'bot_token'      => env('SLACK_BOT_TOKEN'),
+    ],
+
 ];

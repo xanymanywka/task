@@ -46,8 +46,8 @@ class User extends Authenticatable
     protected $casts = [
         'role_id'             => 'integer',
         'email_verified_at'   => 'datetime',
-        // It's good practice to hide the password from any JSON serialization.
-        'password'            => 'hashed', // For Laravel 10+
+        'password'            => 'hashed',
+        'appearance'          => 'array',
     ];
 
     public function resolveRouteBinding($value, $field = null) {

@@ -10,6 +10,7 @@
         "ext-gd": "*",
         "doctrine/dbal": "^3.0",
         "fakerphp/faker": "^1.9.1",
+        "google/apiclient": "^2.15",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^0.6.11",
         "jackiedo/dotenv-editor": "^2.0",

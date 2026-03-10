@@ -15,7 +15,7 @@
                 </Link>
             </div>
             <div class="flex items-center flex-start gap-1 ml-auto view__menus">
-                <button v-if="['board', 'table', 'time_logs'].includes(view)" class="flex pl-4 pr-2 items-center __filter cursor-pointer capitalize rounded hover:bg-[#a6c5e229]" @click="$emit('filterToggle');" :class="{'active': findFilters()}"> <icon name="filter" class="w-4 fill-[#ffffff] h-4 mr-[5px]" />
+                <button v-if="['board', 'table', 'time_logs', 'gantt'].includes(view)" class="flex pl-4 pr-2 items-center __filter cursor-pointer capitalize rounded hover:bg-[#a6c5e229]" @click="$emit('filterToggle');" :class="{'active': findFilters()}"> <icon name="filter" class="w-4 fill-[#ffffff] h-4 mr-[5px]" />
                     <span>{{ $t('Filter') }} </span>
                     <span class="filter_clear" @click="clearFilter($event)">{{ $t('Clear All') }} <icon name="close" class="w-4 h-4" /></span>
                 </button>
@@ -42,9 +42,10 @@ export default {
     components: {BoardFilter, Icon, Link },
     data() {
         return {
-            icons: ['board', 'calendar', 'timeline', 'table', 'dashboard', 'time'],
+            icons: ['board', 'gantt', 'calendar', 'timeline', 'table', 'dashboard', 'time'],
             options: [
                 {name: 'Board', slug: 'board'},
+                {name: 'Gantt', slug: 'gantt'},
                 {name: 'Calendar', slug: 'calendar'},
                 {name: 'Timeline', slug: 'timeline'},
                 {name: 'List', slug: 'table'},

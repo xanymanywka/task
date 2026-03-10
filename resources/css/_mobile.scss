@@ -1,0 +1,205 @@
+/* ============================================================
+   Mobile Responsive & PWA Styles
+   ============================================================ */
+
+/* Vue transition animations for mobile sidebar */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.25s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+    transition: transform 0.3s ease;
+}
+.slide-left-enter-from,
+.slide-left-leave-to {
+    transform: translateX(-100%);
+}
+
+/* Safe area insets for iOS notch/home indicator */
+@supports (padding: max(0px)) {
+    .safe-area-inset-bottom {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+    nav.fixed.bottom-0 {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+        height: calc(4rem + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/* ── MOBILE ONLY (< 768px) ── */
+@media (max-width: 767px) {
+
+    /* Layout: full-width, scrollable */
+    .layout-app {
+        min-height: 100dvh;
+        overflow-x: hidden;
+    }
+
+    /* Top bar: compact on mobile */
+    .top_bar {
+        padding: 8px 12px !important;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+    }
+
+    /* Hide desktop sidebar (shown in drawer instead) */
+    .sidebar {
+        display: none !important;
+    }
+
+    /* Main content: full width */
+    .md\:flex-1 {
+        flex: 1 1 0%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Section containers: tighter padding */
+    .sec-cont {
+        padding: 12px 12px 0 12px !important;
+    }
+
+    /* Cards: full width on mobile */
+    .card {
+        padding: 16px !important;
+        border-radius: 12px !important;
+    }
+
+    /* Tables: horizontal scroll */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 500px;
+    }
+
+    /* Board: horizontal scroll */
+    .board-container,
+    .kanban-board {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 80px; /* space for bottom nav */
+    }
+
+    /* Task cards: larger touch targets */
+    .task-card,
+    .td__btn,
+    button,
+    a {
+        min-height: 36px;
+    }
+
+    /* Calendar: compact */
+    .calendar-grid .day-cell {
+        min-height: 60px !important;
+        padding: 4px !important;
+    }
+
+    /* Modals: full screen on mobile */
+    .modal-container,
+    .task-detail-modal {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100dvh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    /* Forms: full width inputs */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select,
+    textarea {
+        font-size: 16px !important; /* prevents iOS zoom on focus */
+    }
+
+    /* Hide non-essential columns in table view */
+    .mobile-hidden {
+        display: none !important;
+    }
+
+    /* Typography scale down */
+    h1 { font-size: 1.375rem !important; }
+    h2 { font-size: 1.125rem !important; }
+
+    /* Grid adjustments */
+    .grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
+    .grid-cols-3 { grid-template-columns: repeat(1, 1fr) !important; }
+
+    /* Dropdown: full width on mobile */
+    .dropdown-content {
+        width: 100vw !important;
+        left: 0 !important;
+        border-radius: 0 0 12px 12px !important;
+    }
+
+    /* Report charts: full width */
+    .apexcharts-canvas {
+        width: 100% !important;
+    }
+}
+
+/* ── TABLET (768px - 1024px) ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .sec-cont {
+        padding: 16px 20px 0 20px !important;
+    }
+
+    .md\:w-60 {
+        width: 220px !important;
+    }
+}
+
+/* Touch devices: remove hover effects that look bad */
+@media (hover: none) and (pointer: coarse) {
+    button:hover,
+    a:hover {
+        background-color: initial !important;
+    }
+
+    /* Larger touch targets */
+    .td__btn {
+        padding: 10px 12px !important;
+    }
+}
+
+/* Appearance CSS variables application */
+.layout-app {
+    background-color: var(--app-bg, #f8fafc);
+    color: var(--app-text, #0f172a);
+
+    --tw-ring-color: var(--app-primary, #6366f1);
+
+    .sidebar,
+    .sidebar-left-top {
+        background-color: var(--app-sidebar, #1e293b) !important;
+    }
+}
+
+/* Density modes */
+.layout-app.density-compact {
+    .sec-cont { padding-top: 8px; }
+    .card { padding: 16px !important; }
+    li, .list-item { padding-top: 4px; padding-bottom: 4px; }
+}
+
+.layout-app.density-spacious {
+    .sec-cont { padding-top: 28px; }
+    .card { padding: 32px !important; }
+    li, .list-item { padding-top: 10px; padding-bottom: 10px; }
+}
+
+/* Card shadow modes */
+.layout-app .card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04); /* soft default */
+}
